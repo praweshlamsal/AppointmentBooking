@@ -143,7 +143,7 @@ const AppointmentQuickActions: React.FC = () => {
         <Typography variant="h4">😔 {t("appointment.messages.noAppointments")}</Typography>
       ) : null}
       <Grid container spacing={3}>
-        {filteredAppointments?.map((appt) => (
+        {filteredAppointments.length && filteredAppointments?.map((appt) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={appt.id}>
             <Card
               sx={{ height: "100%", display: "flex", flexDirection: "column" }}

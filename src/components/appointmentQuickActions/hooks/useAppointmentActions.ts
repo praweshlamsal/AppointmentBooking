@@ -70,9 +70,10 @@ export const useAppointmentActions = () => {
   const createAppointment = useMutation({
     mutationFn: async (newAppointment: {
       id: string;
-      patient: string;
-      date: string;
-      time: string;
+      patientName: string;
+      appointmentTime:string;
+      service: string;
+      staffMember: string;
       status?: string;
     }) => ({
       ...newAppointment,
