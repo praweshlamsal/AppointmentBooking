@@ -1,69 +1,62 @@
-# React + TypeScript + Vite
+# Appointment Quick Actions – Frontend Coding Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This project is a mini-feature for an **Appointment Management System** built using **Vite** and **React 18**. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Core Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **AppointmentQuickActions Component**: Displays appointment cards in a responsive grid layout.
+- **Appointment Cards**:
+  - Patient Name
+  - Appointment Time
+  - Service
+  - Status
+  - Staff Member
+- **Action Buttons**:
+  - `Check In`
+  - `Reschedule`
+  - `Cancel`
+  - `View Receipt`
+- **Status Indicators**: Color-coded for quick reference
+  - `Scheduled` → Info
+  - `Checked In` → Success
+  - `Completed` → Default
+  - `Cancelled` → Error
+- **Data Management**:
+  - Uses **React Query** with a **mock API hook** (`useAppointmentActions.ts`)
+  - Implements **optimistic updates** for status changes
+- **UI Feedback**:
+  - Loading indicators while fetching data
+  - Error messages for failed requests
+  - Toast notifications for successful actions
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Bonus Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Confirmation Dialogs** for destructive actions like `Reschedule` and `Cancel`
+- **Multilingual Support** (English / French) using a translation setup
+- **Search and Filter Functionality**:
+  - Search by patient name
+  - Filter by appointment status
+- **Responsive Grid Layout**:
+  - Displays 2–4 cards per row depending on screen size
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Technical Specifications
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Appointment Interface
+
+```ts
+interface Appointment {
+  id: string;
+  patientName: string;
+  appointmentTime: string;
+  service: string;
+  status: 'scheduled' | 'checked-in' | 'completed' | 'cancelled';
+  staffMember: string;
+}
