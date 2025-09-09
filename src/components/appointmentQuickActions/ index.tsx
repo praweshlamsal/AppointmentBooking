@@ -28,7 +28,10 @@ import CreateAppointmentButton from "./CreateAppointment";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../languageSwitch/LanguageSwitcher";
 
-const statusColors: Record<string, "default" | "success" | "error" | "warning" | "info"> = {
+const statusColors: Record<
+  string,
+  "default" | "success" | "error" | "warning" | "info"
+> = {
   scheduled: "info",
   "checked-in": "success",
   completed: "default",
@@ -64,24 +67,35 @@ const AppointmentQuickActions: React.FC = () => {
   ) => {
     try {
       if (action === "checkIn") await checkIn.mutateAsync(id);
-      if (action === "reschedule" && newTime) reschedule.mutate({ id, newTime });
+      if (action === "reschedule" && newTime)
+        reschedule.mutate({ id, newTime });
       if (action === "cancel") await cancel.mutateAsync(id);
       if (action === "viewReceipt") await viewReceipt.mutateAsync(id);
 
       toast.success(
-        t("appointment.messages.success", { action: t(`appointment.${action}`) })
+        t("appointment.messages.success", {
+          action: t(`appointment.${action}`),
+        })
       );
-      queryClient.invalidateQueries(["appointments"]);
+      queryClient.invalidateQueries({
+        queryKey: ["appointments"],
+      });
     } catch {
       toast.error(
-        t("appointment.messages.failure", { action: t(`appointment.${action}`) })
+        t("appointment.messages.failure", {
+          action: t(`appointment.${action}`),
+        })
       );
     }
   };
 
   if (isLoading) return <CircularProgress />;
   if (isError)
-    return <Typography color="error">{t("appointment.messages.loadError")}</Typography>;
+    return (
+      <Typography color="error">
+        {t("appointment.messages.loadError")}
+      </Typography>
+    );
 
   return (
     <Box sx={{ p: 2 }}>
@@ -110,20 +124,30 @@ const AppointmentQuickActions: React.FC = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
             >
               <MenuItem value="">All</MenuItem>
-              <MenuItem value="scheduled">{t("appointment.scheduled")}</MenuItem>
-              <MenuItem value="checked-in">{t("appointment.checked-in")}</MenuItem>
-              <MenuItem value="completed">{t("appointment.completed")}</MenuItem>
-              <MenuItem value="cancelled">{t("appointment.cancelled")}</MenuItem>
+              <MenuItem value="scheduled">
+                {t("appointment.scheduled")}
+              </MenuItem>
+              <MenuItem value="checked-in">
+                {t("appointment.checked-in")}
+              </MenuItem>
+              <MenuItem value="cancelled">
+                {t("appointment.cancelled")}
+              </MenuItem>
             </Select>
           </FormControl>
         </Stack>
       </Paper>
 
       {/* Appointment Grid */}
+      {filteredAppointments?.length === 0 ? (
+        <Typography variant="h4">😔 {t("appointment.messages.noAppointments")}</Typography>
+      ) : null}
       <Grid container spacing={3}>
         {filteredAppointments?.map((appt) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={appt.id}>
-            <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+            <Card
+              sx={{ height: "100%", display: "flex", flexDirection: "column" }}
+            >
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="h6" gutterBottom>
                   {appt.patientName}
@@ -132,7 +156,9 @@ const AppointmentQuickActions: React.FC = () => {
                   {new Date(appt.appointmentTime).toLocaleString()}
                 </Typography>
                 <Typography variant="body2">Service: {appt.service}</Typography>
-                <Typography variant="body2">Staff: {appt.staffMember}</Typography>
+                <Typography variant="body2">
+                  Staff: {appt.staffMember}
+                </Typography>
 
                 <Chip
                   label={t(`appointment.${appt.status}`)}
@@ -155,7 +181,9 @@ const AppointmentQuickActions: React.FC = () => {
                   <Button
                     variant="outlined"
                     size="small"
-                    onClick={() => setConfirmDialog({ id: appt.id, action: "reschedule" })}
+                    onClick={() =>
+                      setConfirmDialog({ id: appt.id, action: "reschedule" })
+                    }
                   >
                     {t("appointment.reschedule")}
                   </Button>
@@ -163,7 +191,9 @@ const AppointmentQuickActions: React.FC = () => {
                     variant="outlined"
                     color="error"
                     size="small"
-                    onClick={() => setConfirmDialog({ id: appt.id, action: "cancel" })}
+                    onClick={() =>
+                      setConfirmDialog({ id: appt.id, action: "cancel" })
+                    }
                   >
                     {t("appointment.cancel")}
                   </Button>

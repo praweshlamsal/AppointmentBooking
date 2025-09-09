@@ -14,6 +14,7 @@ export default {
       success: '{{action}} successful!',
       failure: 'Failed to {{action}}',
       loadError: 'Failed to load appointments.',
+      noAppointments: 'No appointments found.',
     },
     confirm: 'Confirm',
   },

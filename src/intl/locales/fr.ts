@@ -14,6 +14,7 @@ export default {
       success: '{{action}} réussi !',
       failure: 'Échec de {{action}}',
       loadError: 'Échec du chargement des rendez-vous.',
+      noAppointments: '😔 Aucun rendez-vous trouvé.',
     },
     confirm: 'Confirmer',
   },
